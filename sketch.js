@@ -21,7 +21,6 @@ function setup() {
     for (let row = 0; row < cellNumb; row += 1) {
       let posX = row * cellSize;
       let posY = col * cellSize;
-      let twig = random(1,1000);
       let posCell = {x: posX, y: posY}
       let newCell = new Cell(posCell, cellSize)
 
