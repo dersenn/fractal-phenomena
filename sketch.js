@@ -8,6 +8,7 @@ let cellNumb = 5
 let cellSize = width / cellNumb;
 let grid = [];
 
+
 /*
 =====================     S E T U P      ========================================
 */
