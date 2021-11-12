@@ -36,27 +36,31 @@ class Tree {
         this.tree[0] = this.root;
         // Die Äste des Baums
         for (var i =  0 ; i < this.twig; i++) {
-            this.tree.push(this.tree[i].branchA());
-            this.tree.push(this.tree[i].branchB());
+            this.tree[i].winkelRotation();// Warum bewegt es sich nicht??
+            push()
+            this.tree.push(this.tree[i].branchA())
+            this.tree.push(this.tree[i].branchB())
             this.tree[i].show();
+            pop()
 
-            // Warum funktioniert dies nicht??? Es sollte den Winkel als Sinuskurve schwingen lassen.
-            this.tree[i].winkelRotation();
         }
     }
 }
 
 class Branch {
     constructor(begin, end) {    
-        this.begin = begin;
-        this.end = end;
+        this.begin = begin
+        this.end = end
+
         //Winkelspiel
-        this.a = random(0.5/0.02) // eigentlich sollte es bei 0.0 anfangen und dasn animieren...
-        this.increment = TAU / random(25/360);
-        this.winkel = sin(this.a);
+        this.a = random(0.6/0.8); //eigentlich sollte hier 0 stehen... um die Sinus Animation zu machen.
+        this.winkel;
+        this.increment;
+
         //Farbspiel
         this.green = random(150,250);
         this.blue = random(150,250);
+
         //Ast A
         this.branchA = function() {
             let dir = p5.Vector.sub(this.end, this.begin);
@@ -64,7 +68,6 @@ class Branch {
             dir.mult(0.45)
             let newEnd = p5.Vector.add(this.end, dir)  
             let b = new Branch (this.end, newEnd)
-            
             return b;
         }
         //Ast B
@@ -83,13 +86,14 @@ class Branch {
         stroke(0, this.green, this.blue);
         line(this.begin.x, this.begin.y, this.end.x, this.end.y)
         fill(0, this.green, this.blue)
-        circle(this.begin.x, this.begin.y-25, random(2,5)) // proof obs bis hier hin funktioniert
+        circle(this.begin.x, this.begin.y-35, random(2,5)) // proof obs bis hier hin funktioniert
     }
 
-    // wie kann ich diese Funktion zum leben erwecken?
-
+    // wie kann ich diese Funktion so einstellen, damit sich die Sinuskurve bewegt?
     winkelRotation() {
-        this.a = this.a + this.increment;
+        this.increment = TWO_PI / 25;
+        this.a = this.a + this.increment
+        this.winkel = sin(this.a);
       }
 
 }
