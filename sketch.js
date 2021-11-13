@@ -4,7 +4,7 @@
 let width = 800;
 let height = 800;
 
-let cellNumb = 1;
+let cellNumb = 5;
 let cellSize = width / cellNumb;
 let grid = [];
 
@@ -28,6 +28,12 @@ function setup() {
       grid.push(newCell)
     }
   }
+
+  for (let i = 0; i < grid.length; i += 1) {
+    let currentCell = grid[i]
+    currentCell.grow()
+  }
+
 }
   /*
   =====================     D R A W      ========================================

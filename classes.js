@@ -6,7 +6,9 @@ class Cell {
         this.forest.push(new Tree(this.Cellsize))
     }
 
-    show() {
+    // changed this, we will grow the tree (fill the array) in setup.
+    // otherwise it gets grown every time the loop runs. and manymany branches.
+    grow() {
         // rect(this.pos.x, this.pos.y, this.Cellsize)
         push();
         translate(this.pos.x, this.pos.y);
@@ -14,6 +16,15 @@ class Cell {
             bonsai.grow();
         }
         pop();
+    }
+
+    // then we just show the tree
+    // musste hier etwas tricksen mit einem neuerlichen push/pop.
+    show() {
+        push()
+        translate(this.pos.x, this.pos.y)
+        this.forest[0].show()
+        pop()
     }
 }
 
@@ -27,7 +38,7 @@ class Tree {
         this.begin = createVector(this.midPoint, this.midPoint*1.5); //der Beginn ist pro Zelle x mittig unten
         this.end = createVector(this.midPoint, this.midPoint); //das Ende ist pro Zelle x mittig bis ins Zentrum
         // Anzahl Äste am Baum
-        this.twig = random(1,50)
+        this.twig = Math.floor(random(1,50)) 
         // Der Baum wird initialisiert
         this.root = new Branch(this.begin, this.end);
     } 
@@ -35,16 +46,20 @@ class Tree {
         // Der Stamm des Baums
         this.tree[0] = this.root;
         // Die Äste des Baums
-        for (var i =  0 ; i < this.twig; i++) {
+        for (var i = 0 ; i < this.twig; i++) {
             this.tree[i].winkelRotation();// Warum bewegt es sich nicht??
             push()
             this.tree.push(this.tree[i].branchA())
             this.tree.push(this.tree[i].branchB())
-            // this.tree[i].rotation();
-            this.tree[i].show();
             pop()
-
         }
+    }
+    // show each branch
+    show() {
+        for (let branch in this.tree) {
+            this.tree[branch].show()
+        }
+        // this.tree[i].show();
     }
 }
 
@@ -73,9 +88,7 @@ class Branch {
         }
         //Ast B
         this.branchB = function() {
-            
             let dir = p5.Vector.sub(this.end, this.begin);
-            // dir.rotate(radians(-60))
             dir.rotate(-this.winkel)
             dir.mult(0.45)
             let newEnd = p5.Vector.add(this.end, dir)  
@@ -84,24 +97,22 @@ class Branch {
         }
     }
 
-    // rotation() {
-    //     push()
-    //     rotate(30)
-    //     pop()
-    // }
-
     show() {
+        // ich glaube hier muss man nun das spiel aus .branchA/B mit dem Vektor und der Rotation wiederholen...
         stroke(0, this.green, this.blue);
         line(this.begin.x, this.begin.y, this.end.x, this.end.y)
         fill(0, this.green, this.blue)
         // circle(this.begin.x, this.begin.y-35, random(2,5)) // proof obs bis hier hin funktioniert
+
+        // und am schluss den winkel updaten.
+        this.winkelRotation()
     }
 
     // wie kann ich diese Funktion so einstellen, damit sich die Sinuskurve bewegt?
     winkelRotation() {
         this.increment = TWO_PI / 25;
         this.a = this.a + this.increment
-        this.winkel = sin(this.a) * PI;
+        this.winkel = sin(this.a);
 
         // console.log(this.winkel)
       }
