@@ -40,6 +40,7 @@ class Tree {
             push()
             this.tree.push(this.tree[i].branchA())
             this.tree.push(this.tree[i].branchB())
+            // this.tree[i].rotation();
             this.tree[i].show();
             pop()
 
@@ -53,7 +54,7 @@ class Branch {
         this.end = end
 
         //Winkelspiel
-        this.a = random(0.6/0.8); //eigentlich sollte hier 0 stehen... um die Sinus Animation zu machen.
+        this.a = 0; //eigentlich sollte hier 0 stehen... um die Sinus Animation zu machen.
         this.winkel;
         this.increment;
 
@@ -74,26 +75,35 @@ class Branch {
         this.branchB = function() {
             
             let dir = p5.Vector.sub(this.end, this.begin);
+            // dir.rotate(radians(-60))
             dir.rotate(-this.winkel)
             dir.mult(0.45)
             let newEnd = p5.Vector.add(this.end, dir)  
             let b = new Branch (this.end, newEnd)
             return b;
         }
-    }  
+    }
+
+    // rotation() {
+    //     push()
+    //     rotate(30)
+    //     pop()
+    // }
 
     show() {
         stroke(0, this.green, this.blue);
         line(this.begin.x, this.begin.y, this.end.x, this.end.y)
         fill(0, this.green, this.blue)
-        circle(this.begin.x, this.begin.y-35, random(2,5)) // proof obs bis hier hin funktioniert
+        // circle(this.begin.x, this.begin.y-35, random(2,5)) // proof obs bis hier hin funktioniert
     }
 
     // wie kann ich diese Funktion so einstellen, damit sich die Sinuskurve bewegt?
     winkelRotation() {
         this.increment = TWO_PI / 25;
         this.a = this.a + this.increment
-        this.winkel = sin(this.a);
+        this.winkel = sin(this.a) * PI;
+
+        // console.log(this.winkel)
       }
 
 }

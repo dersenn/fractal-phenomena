@@ -4,7 +4,7 @@
 let width = 800;
 let height = 800;
 
-let cellNumb = 5
+let cellNumb = 1;
 let cellSize = width / cellNumb;
 let grid = [];
 
